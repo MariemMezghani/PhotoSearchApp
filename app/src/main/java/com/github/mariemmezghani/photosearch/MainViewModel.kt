@@ -1,5 +1,6 @@
 package com.github.mariemmezghani.photosearch
 
+import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class MainViewModel : ViewModel() {
+
     // The internal MutableLiveData String that stores the most recent response
     private val _status = MutableLiveData<String>()
 
@@ -23,14 +25,14 @@ class MainViewModel : ViewModel() {
         get() = _photos
 
     init {
-        getPhotosList()
+        getPhotosList("popular")
     }
 
 
-    private fun getPhotosList() {
+     fun getPhotosList(searchTerm:String) {
         viewModelScope.launch {
             try {
-                val listResult = PhotoApi.retrofitService.getSearchedPhotos("dog").asDomainModel()
+                val listResult = PhotoApi.retrofitService.getSearchedPhotos(searchTerm).asDomainModel()
                 if (listResult.size >0) {
                     _photos.value = listResult
                 }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import com.github.mariemmezghani.photosearch.databinding.FragmentMainBinding
 
@@ -23,6 +24,21 @@ class MainFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.photosRecyclerview.adapter = PhotoAdapter()
+        binding.searchText.setOnQueryTextListener(object:androidx.appcompat.widget.SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if(query != null){
+                    // make sure the recycler view scrolls to position 0
+                    binding.photosRecyclerview.scrollToPosition(0)
+                    viewModel.getPhotosList(query)
+                    binding.searchText.clearFocus()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
 
         return binding.root
     }
