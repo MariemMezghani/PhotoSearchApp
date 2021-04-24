@@ -25,7 +25,7 @@ private val retrofit = Retrofit.Builder().addConverterFactory(MoshiConverterFact
 interface ApiService {
     @GET("?method=flickr.photos.search&api_key=37ad288835e4c64fc0cb8af3f3a1a65d&format=json&nojsoncallback=1&safe_search=1")
     @Wrapped(path = ["photos", "photo"])
-    suspend fun getSearchedPhotos(@Query(value = "text") searchTerm: String): List<Photo>
+    suspend fun getSearchedPhotos(@Query(value = "text") searchTerm: String): List<PhotoResponse>
 }
 
 object PhotoApi {

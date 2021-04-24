@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.mariemmezghani.photosearch.network.Photo
+import com.github.mariemmezghani.photosearch.domain.Photo
 import com.github.mariemmezghani.photosearch.network.PhotoApi
+import com.github.mariemmezghani.photosearch.network.asDomainModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -17,12 +18,9 @@ class MainViewModel : ViewModel() {
     val status: LiveData<String>
         get() = _status
 
-    private val _photo = MutableLiveData<Photo>()
-    val photo: LiveData<Photo>
-        get() = _photo
-    val _photoUrl = MutableLiveData<String>()
-    val photoUrl: LiveData<String>
-        get() = _photoUrl
+    private val _photos = MutableLiveData<List<Photo>>()
+    val photos: LiveData<List<Photo>>
+        get() = _photos
 
     init {
         getPhotosList()
@@ -32,12 +30,11 @@ class MainViewModel : ViewModel() {
     private fun getPhotosList() {
         viewModelScope.launch {
             try {
-                val listResult = PhotoApi.retrofitService.getSearchedPhotos("dog")
-                if (listResult.size > 0) {
-                    _photo.value = listResult.get(0)
-                    _photoUrl.value =
-                        "https://farm${_photo.value?.farm}.staticflickr.com/${_photo.value?.server}/${_photo.value?.id}_${_photo.value?.secret}.jpg"
+                val listResult = PhotoApi.retrofitService.getSearchedPhotos("dog").asDomainModel()
+                if (listResult.size >0) {
+                    _photos.value = listResult
                 }
+
             } catch (e: Exception) {
                 _status.value = "Failure"
             }

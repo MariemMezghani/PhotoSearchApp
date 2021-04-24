@@ -22,6 +22,7 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
+        binding.photosRecyclerview.adapter = PhotoAdapter()
 
         return binding.root
     }

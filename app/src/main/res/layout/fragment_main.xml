@@ -10,16 +10,24 @@
             type="com.github.mariemmezghani.photosearch.MainViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainFragment">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:photo="@{viewModel.photoUrl}" />
-
-    </FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/photos_recyclerview"
+            app:listView="@{viewModel.photos}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="6dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:spanCount="2"
+            tools:itemCount="16"
+            tools:listitem="@layout/photo_item_view" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
