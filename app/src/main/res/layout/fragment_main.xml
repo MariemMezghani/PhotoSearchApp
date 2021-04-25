@@ -46,7 +46,6 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/photos_recyclerview"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:listView="@{viewModel.photos}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="6dp"

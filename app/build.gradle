@@ -49,6 +49,9 @@ dependencies {
     // RecyclerView dependency
     implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
 
+    // Paging library dependency
+    implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
+
     // Retrofit dependencies
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
     implementation "com.squareup.moshi:moshi:$version_moshi"

@@ -1,48 +1,32 @@
 package com.github.mariemmezghani.photosearch
 
-import androidx.databinding.Bindable
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.github.mariemmezghani.photosearch.repository.PhotosRepository
+import androidx.paging.cachedIn
 import androidx.lifecycle.viewModelScope
-import com.github.mariemmezghani.photosearch.domain.Photo
-import com.github.mariemmezghani.photosearch.network.PhotoApi
-import com.github.mariemmezghani.photosearch.network.asDomainModel
-import kotlinx.coroutines.launch
-import java.lang.Exception
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.ViewModel
 
-class MainViewModel : ViewModel() {
 
-    // The internal MutableLiveData String that stores the most recent response
+class MainViewModel(private val repository: PhotosRepository) : ViewModel() {
     private val _status = MutableLiveData<String>()
-
-    // The external immutable LiveData for the response String
-    val status: LiveData<String>
-        get() = _status
-
-    private val _photos = MutableLiveData<List<Photo>>()
-    val photos: LiveData<List<Photo>>
-        get() = _photos
+    private val currentQuery = MutableLiveData(DEFAULT_QUERY)
+    val photos = currentQuery.switchMap { queryString ->
+        repository.getPhotos(queryString).cachedIn(viewModelScope)
+    }
 
     init {
-        getPhotosList("popular")
+        getPhotosList(currentQuery.value ?: "")
     }
 
 
-     fun getPhotosList(searchTerm:String) {
-        viewModelScope.launch {
-            try {
-                val listResult = PhotoApi.retrofitService.getSearchedPhotos(searchTerm).asDomainModel()
-                if (listResult.size >0) {
-                    _photos.value = listResult
-                }
+    fun getPhotosList(query: String) {
+        currentQuery.value = query
 
-            } catch (e: Exception) {
-                _status.value = "Failure"
-            }
+    }
 
-        }
-
+    companion object {
+        private const val DEFAULT_QUERY = "nature"
     }
 
 }

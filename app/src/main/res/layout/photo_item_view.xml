@@ -6,7 +6,7 @@
     <data>
         <variable
             name="photo"
-            type="com.github.mariemmezghani.photosearch.domain.Photo" />
+            type="com.github.mariemmezghani.photosearch.model.Photo" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
 
