@@ -2,9 +2,11 @@ package com.github.mariemmezghani.photosearch
 
 import android.app.SearchManager
 import android.content.Context
-import android.content.Intent
+import android.database.Cursor
 import android.os.Bundle
 import android.provider.SearchRecentSuggestions
+import android.widget.CursorAdapter
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -51,6 +53,20 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
+        binding.searchText
+            .setOnSuggestionListener(object : androidx.appcompat.widget.SearchView.OnSuggestionListener {
+            override fun onSuggestionSelect(position: Int): Boolean {
+                return true
+            }
+
+            override fun onSuggestionClick(position: Int): Boolean {
+                val selectedView: androidx.cursoradapter.widget.CursorAdapter? = binding.searchText.getSuggestionsAdapter()
+                val cursor: Cursor = selectedView?.getItem(position) as Cursor
+                val index: Int = cursor.getColumnIndexOrThrow(SearchManager.SUGGEST_COLUMN_TEXT_1)
+                binding.searchText.setQuery(cursor.getString(index), true)
                 return true
             }
         })
