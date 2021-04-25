@@ -11,9 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PhotoSearch">
         <provider
-            android:authorities=".HistoryProvider"
-            android:name="com.github.mariemmezghani.photosearch.history.HistoryProvider"
-            android:exported="false" />
+            android:name=".history.HistoryProvider"
+
+
+            android:authorities="com.github.mariemmezghani.photosearch.history.HistoryProvider" />
         <activity android:name=".MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
