@@ -25,8 +25,11 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
-
-        binding.photosRecyclerview.adapter = adapter
+        binding.photosRecyclerview.setHasFixedSize(true)
+        binding.photosRecyclerview.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = PhotoLoadStateAdapter { adapter.retry() },
+            footer = PhotoLoadStateAdapter { adapter.retry() },
+        )
 
         viewModel.photos.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
