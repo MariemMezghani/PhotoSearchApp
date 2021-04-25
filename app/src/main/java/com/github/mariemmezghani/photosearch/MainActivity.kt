@@ -1,11 +1,17 @@
 package com.github.mariemmezghani.photosearch
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.SearchManager
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.provider.SearchRecentSuggestions
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.LoadState
 import com.github.mariemmezghani.photosearch.databinding.ActivityMainBinding
+import com.github.mariemmezghani.photosearch.history.HistoryProvider
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -15,8 +21,39 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Inflate the layout for this fragment
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // make the Activity searchable
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        binding.searchText.apply {
+            // Assumes current activity is the searchable activity
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+            setIconifiedByDefault(false)
+        }
+        binding.searchText.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) {
+                    // make sure the recycler view scrolls to position 0
+                    binding.photosRecyclerview.scrollToPosition(0)
+                    viewModel.getPhotosList(query)
+                    binding.searchText.clearFocus()
+                    query.also { query ->
+                        SearchRecentSuggestions(
+                            this@MainActivity,
+                            HistoryProvider.AUTHORITY,
+                            HistoryProvider.MODE
+                        )
+                            .saveRecentQuery(query, null)
+                    }
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
         // get the view model
         viewModel = ViewModelProvider(this, Injection.provideViewModelFactory())
             .get(MainViewModel::class.java)
@@ -37,22 +74,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        binding.searchText.setOnQueryTextListener(object :
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query != null) {
-                    // make sure the recycler view scrolls to position 0
-                    binding.photosRecyclerview.scrollToPosition(0)
-                    viewModel.getPhotosList(query)
-                    binding.searchText.clearFocus()
-                }
-                return true
-            }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
-            }
-        })
         adapter.addLoadStateListener { loadState ->
             binding.apply {
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading
