@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 
 
 class MainViewModel(private val repository: PhotosRepository) : ViewModel() {
-    private val _status = MutableLiveData<String>()
     private val currentQuery = MutableLiveData(DEFAULT_QUERY)
     val photos = currentQuery.switchMap { queryString ->
         repository.getPhotos(queryString).cachedIn(viewModelScope)

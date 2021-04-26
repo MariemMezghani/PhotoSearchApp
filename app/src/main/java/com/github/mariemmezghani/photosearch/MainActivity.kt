@@ -5,8 +5,6 @@ import android.content.Context
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.SearchRecentSuggestions
-import android.widget.CursorAdapter
-import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
