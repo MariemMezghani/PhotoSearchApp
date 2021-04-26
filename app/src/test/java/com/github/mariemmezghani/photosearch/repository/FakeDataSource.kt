@@ -1,5 +1,6 @@
 package com.github.mariemmezghani.photosearch.repository
 
+import androidx.paging.PagingData
 import com.github.mariemmezghani.photosearch.network.ApiService
 import com.github.mariemmezghani.photosearch.network.PhotoResponse
 
