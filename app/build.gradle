@@ -71,6 +71,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$version_lifecycle"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+
     // Mockito
     testImplementation 'org.mockito:mockito-inline:3.9.0'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
