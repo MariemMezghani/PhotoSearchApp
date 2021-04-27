@@ -6,8 +6,8 @@ import androidx.paging.liveData
 import com.github.mariemmezghani.photosearch.model.PhotoPagingSource
 import com.github.mariemmezghani.photosearch.network.ApiService
 
-class PhotosRepository(private val service: ApiService) : PhotosRepositoryInterface {
-    override fun getPhotos(query: String) = Pager(
+class PhotosRepository(private val service: ApiService) {
+    fun getPhotos(query: String) = Pager(
         config = PagingConfig(
             pageSize = 20,
             enablePlaceholders = false

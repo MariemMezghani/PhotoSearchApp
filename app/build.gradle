@@ -35,6 +35,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -74,6 +77,9 @@ dependencies {
     // Picasso dependency
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    // Mockito
+    testImplementation 'org.mockito:mockito-inline:3.9.0'
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version_kotlin_coroutines"
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
