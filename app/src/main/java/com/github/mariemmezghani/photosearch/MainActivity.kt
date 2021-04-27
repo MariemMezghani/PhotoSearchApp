@@ -12,7 +12,6 @@ import androidx.paging.LoadState
 import com.github.mariemmezghani.photosearch.databinding.ActivityMainBinding
 import com.github.mariemmezghani.photosearch.history.HistoryProvider
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
