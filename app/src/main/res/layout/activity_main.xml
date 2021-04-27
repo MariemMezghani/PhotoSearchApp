@@ -11,9 +11,9 @@
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/drawer_layout"
         android:fitsSystemWindows="true"
         tools:openDrawer="start">
 
@@ -30,7 +30,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlways">
+                    app:layout_scrollFlags="scroll|enterAlways">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -52,26 +52,25 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:padding="6dp"
-                android:fitsSystemWindows="true">
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/photos_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scrollbars="vertical"
                     android:fadeScrollbars="false"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:scrollbars="vertical"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="2"
-                    android:scrollbarStyle="outsideOverlay"
                     tools:listitem="@layout/photo_item_view" />
 
                 <ProgressBar
                     android:id="@+id/progress_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -80,8 +79,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/button_retry"
-                    android:layout_centerHorizontal="true"
-                    android:text="Results could not be loaded"
+                    android:layout_centerInParent="true"
+                    android:text="@string/results_could_not_be_loaded"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -90,7 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="Retry"
+                    android:text="@string/retry"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -99,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="No results found for this query"
+                    android:text="@string/no_results_found_for_this_query"
                     android:visibility="gone"
                     tools:visibility="visible" />
             </RelativeLayout>

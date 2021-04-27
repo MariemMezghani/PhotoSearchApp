@@ -2,6 +2,9 @@ package com.github.mariemmezghani.photosearch.history
 
 import android.content.SearchRecentSuggestionsProvider
 
+/**
+ * The content provider needed for recent user search history suggestions
+ */
 class HistoryProvider : SearchRecentSuggestionsProvider() {
     init {
         setupSuggestions(AUTHORITY, MODE)

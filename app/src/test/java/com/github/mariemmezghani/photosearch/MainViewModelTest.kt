@@ -35,7 +35,7 @@ class MainViewModelTest{
         //Invoke
         mainViewModel.getPhotosList("nature")
         // verify
-        assertNotNull(this.mainViewModel.photos.value)
+        assertNotNull(this.mainViewModel.photos)
     }
 
 }

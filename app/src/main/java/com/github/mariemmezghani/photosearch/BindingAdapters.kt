@@ -13,7 +13,6 @@ fun bindPhoto(imageView: ImageView, url: String?) {
         Picasso.get()
             .load(imgUri)
             .resize(400, 400)
-            //.placeholder(R.drawable.placeholder_picture_of_day)
             .centerCrop()
             .into(imageView)
     }

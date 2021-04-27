@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.mariemmezghani.photosearch">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -12,10 +13,9 @@
         android:theme="@style/Theme.PhotoSearch">
         <provider
             android:name=".history.HistoryProvider"
-
-
             android:authorities="com.github.mariemmezghani.photosearch.history.HistoryProvider" />
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,10 +24,10 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable">
-            </meta-data>
+                android:resource="@xml/searchable"></meta-data>
         </activity>
     </application>
 

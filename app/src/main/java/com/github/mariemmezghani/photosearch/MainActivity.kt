@@ -20,54 +20,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Inflate the layout for this fragment
+        // Inflate the layout for this activity
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // make the Activity searchable
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        binding.searchText.apply {
-            // Assumes current activity is the searchable activity
-            setSearchableInfo(searchManager.getSearchableInfo(componentName))
-            setIconifiedByDefault(false)
-        }
-        binding.searchText.setOnQueryTextListener(object :
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query != null) {
-                    // make sure the recycler view scrolls to position 0
-                    binding.photosRecyclerview.scrollToPosition(0)
-                    viewModel.getPhotosList(query)
-                    binding.searchText.clearFocus()
-                    query.also { query ->
-                        SearchRecentSuggestions(
-                            this@MainActivity,
-                            HistoryProvider.AUTHORITY,
-                            HistoryProvider.MODE
-                        )
-                            .saveRecentQuery(query, null)
-                    }
-                }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
-            }
-        })
-        binding.searchText
-            .setOnSuggestionListener(object : androidx.appcompat.widget.SearchView.OnSuggestionListener {
-            override fun onSuggestionSelect(position: Int): Boolean {
-                return true
-            }
-
-            override fun onSuggestionClick(position: Int): Boolean {
-                val selectedView: androidx.cursoradapter.widget.CursorAdapter? = binding.searchText.getSuggestionsAdapter()
-                val cursor: Cursor = selectedView?.getItem(position) as Cursor
-                val index: Int = cursor.getColumnIndexOrThrow(SearchManager.SUGGEST_COLUMN_TEXT_1)
-                binding.searchText.setQuery(cursor.getString(index), true)
-                return true
-            }
-        })
         // get the view model
         viewModel = ViewModelProvider(this, Injection.provideViewModelFactory())
             .get(MainViewModel::class.java)
@@ -75,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
+
         binding.photosRecyclerview.adapter = adapter.withLoadStateHeaderAndFooter(
             header = PhotoLoadStateAdapter { adapter.retry() },
             footer = PhotoLoadStateAdapter { adapter.retry() },
@@ -87,7 +45,56 @@ class MainActivity : AppCompatActivity() {
             adapter.submitData(this.lifecycle, it)
 
         }
+        binding.searchText.apply {
+            // Assumes current activity is the searchable activity
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+            setIconifiedByDefault(false)
+        }
+        binding.searchText.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) {
+                    // make sure the recycler view scrolls to position 0
+                    binding.photosRecyclerview.scrollToPosition(0)
+                    viewModel.getPhotosList(query)
+                    //remove keyboard
+                    binding.searchText.clearFocus()
+                    query.also { query ->
+                        SearchRecentSuggestions(
+                            this@MainActivity,
+                            HistoryProvider.AUTHORITY,
+                            HistoryProvider.MODE
+                        )
+                            // save recent queries so that the user can see search query history when
+                            // clicking on the searchview
+                            .saveRecentQuery(query, null)
+                    }
+                }
+                return true
+            }
 
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
+        binding.searchText
+            .setOnSuggestionListener(object :
+                androidx.appcompat.widget.SearchView.OnSuggestionListener {
+                override fun onSuggestionSelect(position: Int): Boolean {
+                    return true
+                }
+
+                // when the user clicks on a query from the search history, results are searched again
+                override fun onSuggestionClick(position: Int): Boolean {
+                    val selectedView: androidx.cursoradapter.widget.CursorAdapter? =
+                        binding.searchText.getSuggestionsAdapter()
+                    val cursor: Cursor = selectedView?.getItem(position) as Cursor
+                    val index: Int =
+                        cursor.getColumnIndexOrThrow(SearchManager.SUGGEST_COLUMN_TEXT_1)
+                    binding.searchText.setQuery(cursor.getString(index), true)
+                    return true
+                }
+            })
 
         adapter.addLoadStateListener { loadState ->
             binding.apply {
