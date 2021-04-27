@@ -54,14 +54,14 @@ dependencies {
 
     // Paging library dependency
     implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
-
     // Retrofit dependencies
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
     implementation "com.squareup.moshi:moshi:$version_moshi"
     implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
     implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
     implementation("com.serjltt.moshi:moshi-lazy-adapters:2.2")
-
+//picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Couroutines dependency
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
@@ -74,8 +74,6 @@ dependencies {
     implementation "android.arch.navigation:navigation-fragment-ktx:$version_navigation"
     implementation "android.arch.navigation:navigation-ui-ktx:$version_navigation"
 
-    // Picasso dependency
-    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Mockito
     testImplementation 'org.mockito:mockito-inline:3.9.0'

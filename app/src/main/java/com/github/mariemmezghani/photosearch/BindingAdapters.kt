@@ -9,12 +9,12 @@ import com.squareup.picasso.Picasso
 fun bindPhoto(imageView: ImageView, url: String?) {
     url?.let {
         val imgUri = it.toUri().buildUpon().scheme("https").build()
+
         Picasso.get()
             .load(imgUri)
-            .resize(800, 800)
-            .centerCrop()
-            //.fit()
+            .resize(400, 400)
             //.placeholder(R.drawable.placeholder_picture_of_day)
+            .centerCrop()
             .into(imageView)
     }
 }
